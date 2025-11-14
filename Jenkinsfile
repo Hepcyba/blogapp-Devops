@@ -18,8 +18,10 @@ pipeline {
                 bat 'python -m venv venv'
 
                 // Activate and install dependencies
-                bat 'venv\\Scripts\\pip install --upgrade pip'
-                bat 'venv\\Scripts\\pip install -r requirements.txt'
+                bat 'python -m venv venv'
+                bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
+                bat 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
+
             }
         }
 
