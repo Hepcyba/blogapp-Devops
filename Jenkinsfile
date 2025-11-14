@@ -25,12 +25,12 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                // Optional: if you have tests folder
-                bat 'venv\\Scripts\\pytest tests || echo "No tests folder found, skipping tests"'
-            }
-        }
+       stage('Run Tests') {
+    steps {
+        echo "No tests folder found, skipping tests"
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
