@@ -1,3 +1,31 @@
-.env
-venv/
+# Python cache
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# VS Code / IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Docker files (optional if you want to ignore locally built images)
+*.tar
+
+# Mac / Windows files
+.DS_Store
+Thumbs.db
+
+# Kubernetes temporary files
+*.yaml~ 
+*.swp

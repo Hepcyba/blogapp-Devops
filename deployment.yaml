@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blog-backend
+  template:
+    metadata:
+      labels:
+        app: blog-backend
+    spec:
+      containers:
+        - name: blog-backend-container
+          image: indupriyavempati/blogapp:latest # REPLACE IMAGE NAME
+          ports:
+            - containerPort: 5000
