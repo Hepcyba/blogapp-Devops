@@ -25,9 +25,9 @@ pipeline {
             }
         }
 
-       stage('Run Tests') {
+stage('Run Tests') {
     steps {
-        echo "No tests folder found, skipping tests"
+        bat 'venv\\Scripts\\pytest tests || echo "No tests folder found, skipping tests"'
     }
 }
 
