@@ -13,16 +13,21 @@ pipeline {
             }
         }
 
-        stage('Setup Python Environment') {
-            steps {
-                // Create venv if not exists
-                bat 'if not exist venv python -m venv venv'
+       stage('Setup Python Environment') {
+    steps {
+        // Create venv if not exists
+        bat 'if not exist venv python -m venv venv'
 
-                // Upgrade pip and install dependencies
-                bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
-                bat 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
-            }
-        }
+        // Upgrade pip
+        bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
+
+        // Install all dependencies including pytest
+        bat 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
+
+        // Install pytest explicitly (to avoid "No module named pytest")
+        bat 'venv\\Scripts\\python.exe -m pip install pytest'
+    }
+}
 
         stage('Run Tests') {
             steps {
