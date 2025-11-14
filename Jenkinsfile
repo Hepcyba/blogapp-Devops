@@ -43,7 +43,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 // Make sure Jenkins Docker host is logged in
-                bat "docker login -u indupriyavempati -p Priya@2004"
+                bat ""C:\Program Files\Docker\Docker\resources\bin\docker.exe" login -u indupriyavempati -p Priya@2004"
                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" push indupriyavempati/blogapp'
             }
         }
