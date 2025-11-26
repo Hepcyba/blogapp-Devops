@@ -44,3 +44,9 @@ def test_delete_post():
 
     response = requests.delete(f"{BASE_URL}/{post_id}")
     assert response.status_code in [200, 204]
+
+def test_failing_case():
+    
+    response = requests.get(BASE_URL)
+    assert response.status_code == 500, "This test is supposed to fail"
+

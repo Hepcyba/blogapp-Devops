@@ -14,6 +14,13 @@ spec:
     spec:
       containers:
         - name: blog-backend-container
-          image: indupriyavempati/blogapp:latest # REPLACE IMAGE NAME
+          image: indupriyavempati/blogapp:latest
           ports:
             - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              value: "mongodb+srv://vempatiindupriya:vempatiindupriya@cluster0.xw2h0mz.mongodb.net/"
+            - name: DB_NAME
+              value: "blog-db"
+            - name: COLLECTION_NAME
+              value: "posts"
