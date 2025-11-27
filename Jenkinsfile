@@ -30,9 +30,12 @@ pipeline {
         }
     }
 
-    post {
-        always {
+   post {
+    always {
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
             junit allowEmptyResults: true, testResults: 'reports/tests.xml'
         }
     }
+}
+
 }
