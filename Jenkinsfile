@@ -20,13 +20,30 @@ pipeline {
         }
 
         stage('Run tests') {
-            steps {
-                sh '''
-                  . venv/bin/activate
-                  pytest --junitxml=test-results.xml
-                '''
-            }
-        }
+    steps {
+        sh '''
+          . venv/bin/activate
+
+          # Start the app in background
+          nohup python app.py > app.log 2>&1 &
+          APP_PID=$!
+
+          # Give the server time to start
+          sleep 5
+
+          # Run tests
+          pytest --junitxml=test-results.xml
+          TEST_EXIT_CODE=$?
+
+          # Stop the app
+          kill $APP_PID || true
+
+          # Return pytest exit code to Jenkins
+          exit $TEST_EXIT_CODE
+        '''
+    }
+}
+
     }
 
     post {
