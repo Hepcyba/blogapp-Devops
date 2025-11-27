@@ -1,60 +1,38 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "indupriyavempati/blogapp:latest"
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/IndupriyaVempati/blogapp-Devops.git'
+                checkout scm
             }
         }
 
         stage('Setup Python Environment') {
             steps {
-                // Create venv
-                bat 'python -m venv venv'
-
-                // Activate and install dependencies
-                bat 'python -m venv venv'
-                bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
-                bat 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
-
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
 
-       stage('Run Tests') {
-    steps {
-        echo "No tests folder found, skipping tests"
-    }
-}
-
-
-        stage('Build Docker Image') {
+        stage('Run Tests') {
             steps {
-               bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" build -t indupriyavempati/blogapp .'
-
-
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                // Make sure Jenkins Docker host is logged in
-                bat "\"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe\" login -u indupriyavempati -p Priya@2004"
-               bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" push indupriyavempati/blogapp'
+                sh '''
+                    . venv/bin/activate
+                    mkdir -p reports
+                    pytest --junitxml=reports/tests.xml || true
+                '''
             }
         }
     }
 
     post {
-        success {
-            echo '✅ Jenkins Pipeline completed successfully!'
-        }
-        failure {
-            echo '❌ Pipeline failed! Check logs.'
+        always {
+            junit allowEmptyResults: true, testResults: 'reports/tests.xml'
         }
     }
 }
